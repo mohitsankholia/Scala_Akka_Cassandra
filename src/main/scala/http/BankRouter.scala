@@ -64,16 +64,16 @@ case class FailureResponse(reason: String)
 class BankRouter(bank: ActorRef[Command])(implicit system: ActorSystem[_]) {
   implicit val timeout: Timeout = Timeout(5.seconds)
 
-  def createBankAccount(request: BankAccountCreationRequest): Future[Response] =
+  private def createBankAccount(request: BankAccountCreationRequest): Future[Response] =
     bank.ask(replyTo => request.toCommand(replyTo))
 
-  def getBankAccount(id: String): Future[Response] =
+  private def getBankAccount(id: String): Future[Response] =
     bank.ask(replyTo => GetBankAccount(id, replyTo))
 
-  def updateBankAccount(id: String, request: BankAccountUpdateRequest): Future[Response] =
+  private def updateBankAccount(id: String, request: BankAccountUpdateRequest): Future[Response] =
     bank.ask(replyTo => request.toCommand(id, replyTo))
 
-  def validateRequest[R: Validator](request: R)(routeIfValid: Route): Route =
+  private def validateRequest[R: Validator](request: R)(routeIfValid: Route): Route =
     validateEntity(request) match {
       case Valid(_) =>
         routeIfValid

@@ -20,7 +20,7 @@ import scala.util.{Failure, Success}
 
 object BankApp {
 
-  def startHttpServer(bank: ActorRef[Command])(implicit system: ActorSystem[_]): Unit = {
+  private def startHttpServer(bank: ActorRef[Command])(implicit system: ActorSystem[_]): Unit = {
     implicit val ec: ExecutionContext = system.executionContext
     val router = new BankRouter(bank)
     val routes = router.routes

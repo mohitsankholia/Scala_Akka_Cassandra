@@ -24,9 +24,9 @@ object Validation {
   implicit val minimumDoubleAbs: MinimumAbs[Double] = Math.abs(_) >= _
 
   // usage
-  def required[A](value: A)(implicit req: Required[A]): Boolean = req(value)
-  def minimum[A](value: A, threshold: Double)(implicit min: Minimum[A]): Boolean = min(value, threshold)
-  def minimumAbs[A](value: A, threshold: Double)(implicit min: MinimumAbs[A]): Boolean = min(value, threshold)
+  private def required[A](value: A)(implicit req: Required[A]): Boolean = req(value)
+  private def minimum[A](value: A, threshold: Double)(implicit min: Minimum[A]): Boolean = min(value, threshold)
+  private def minimumAbs[A](value: A, threshold: Double)(implicit min: MinimumAbs[A]): Boolean = min(value, threshold)
 
   // Validated
   type ValidationResult[A] = ValidatedNel[ValidationFailure, A]
